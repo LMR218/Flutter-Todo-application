@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget{
 class _MyHomePageState extends State<MyHomePage>{
 
   //init variable.
-  final List<String> _todos = ['task 1','task 2','task 3'];
+  final List<String> _todos = ['task 1','task 2','task 3','task 4'];
 
   void _addTodo(){
     showDialog(
@@ -43,5 +43,30 @@ class _MyHomePageState extends State<MyHomePage>{
 
       }
       );
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(title: Text('To Do List'),),
+      body: ListView.builder(
+        itemCount: _todos.length,
+        itemBuilder: (context,index){
+          final todo = _todos[index];
+
+          return ListTile(
+            title: Text(todo),
+            onTap: (){
+              setState((){
+                _todos.removeAt(index);
+
+               },
+              );
+            }
+          );
+        }
+      ),
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: _addTodo),
+    );
   }
 }
