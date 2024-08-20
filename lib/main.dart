@@ -48,25 +48,33 @@ class _MyHomePageState extends State<MyHomePage>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: Text('To Do List'),),
+      appBar: AppBar(title: const Text('To Do List'),),
       body: ListView.builder(
         itemCount: _todos.length,
         itemBuilder: (context,index){
           final todo = _todos[index];
 
           return ListTile(
-            title: Text(todo),
+            title: Text(
+              todo,
+              style: TextStyle(decoration: todo.startsWith('-')? TextDecoration.lineThrough: TextDecoration.none),),            
             onTap: (){
               setState((){
-                _todos.removeAt(index);
-
+                if(todo.startsWith('-')){
+                  _todos[index] = todo.substring(2);
+                }else{
+                  _todos[index]  = '- $todo';
+                }
                },
               );
-            }
+            },
+            onLongPress: (){
+              _todos.removeAt(index);
+            },
           );
         }
       ),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: _addTodo),
+      floatingActionButton: FloatingActionButton(onPressed: _addTodo, child: const Icon(Icons.add)),
     );
   }
 }
